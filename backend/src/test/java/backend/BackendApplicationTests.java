@@ -37,7 +37,7 @@ class BackendApplicationTests {
 	@Test
 	@DisplayName("Get a player")
 	void getPlayerTest() {
-		String playerTagTest = "#2PP9JP09Q";
+		String playerTagTest = "#2PP9JP09R";
 		Player player = playerService.getPlayer(playerTagTest, clashOfClansToken, clashOfClansBaseURI);
 
 		assertNotNull(player);

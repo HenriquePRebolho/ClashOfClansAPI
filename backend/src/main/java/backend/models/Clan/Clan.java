@@ -3,11 +3,18 @@ package backend.models.Clan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "Clan")
 public class Clan {
 
+    @Id
     @JsonProperty("tag")
     private String tag;
     @JsonProperty("name")
