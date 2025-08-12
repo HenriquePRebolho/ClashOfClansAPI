@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.models.WarLog.WarLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,11 +15,15 @@ import java.net.URI;
 @Service
 public class WarLogService {
 
+    @Value("${clashOfClansBaseURI}")
+    private String clashOfClansBaseURI;
+    @Value("${clashOfClansToken}")
+    private String clashOfClansToken;
+
     @Autowired
     RestTemplate restTemplate;
 
-    public WarLog getWarLog(String clanTag, String clashOfClansToken,
-                            String clashOfClansBaseURI) {
+    public WarLog getWarLog(String clanTag) {
         // Remove the '#' from the player tag
         clanTag = clanTag.subSequence(1, clanTag.length()).toString();
 
@@ -36,7 +41,11 @@ public class WarLogService {
         ResponseEntity<WarLog> response;
         try {
             response = restTemplate.exchange(uri, HttpMethod.GET, request, WarLog.class);
-            return response.getBody();
+            WarLog warLog = new WarLog();
+            warLog.setClanTag(clanTag);
+            warLog.setItems(response.getBody().getItems());  // FIX
+            warLog.setPaging(response.getBody().getPaging());
+            return warLog;
         }
         catch (Exception error) {
             System.out.println(error.toString());

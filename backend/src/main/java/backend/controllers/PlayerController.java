@@ -3,6 +3,7 @@ package backend.controllers;
 import backend.exceptions.PlayerNotFoundException;
 import backend.models.Player.Player;
 import backend.repositories.PlayerRepository;
+import backend.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class PlayerController {
 
     @Autowired
     PlayerRepository playerRepository;
+
+    @Autowired
+    PlayerService playerService;
 
     @GetMapping("/{playerTag}")
     @ResponseStatus(HttpStatus.OK)
@@ -30,11 +34,12 @@ public class PlayerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Player createPlayer(@RequestBody Player newPlayer) {
+    public Player createPlayer(@RequestBody String newPlayerTag) {
         try {
-            if (playerRepository.findByPlayerTag(newPlayer.getTag()) != null) {
-                return playerRepository.findByPlayerTag(newPlayer.getTag());
+            if (playerRepository.findByPlayerTag(newPlayerTag) != null) {
+                return playerRepository.findByPlayerTag(newPlayerTag);
             }
+            Player newPlayer = playerService.getPlayer(newPlayerTag);
             return playerRepository.save(newPlayer);
         } catch (Exception e) {
             e.printStackTrace();

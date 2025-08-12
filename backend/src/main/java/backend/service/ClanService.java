@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.models.Clan.Clan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,11 +15,15 @@ import java.net.URI;
 @Service
 public class ClanService {
 
+    @Value("${clashOfClansBaseURI}")
+    private String clashOfClansBaseURI;
+    @Value("${clashOfClansToken}")
+    private String clashOfClansToken;
+
     @Autowired
     RestTemplate restTemplate;
 
-    public Clan getClan(String clanTag, String clashOfClansToken,
-                          String clashOfClansBaseURI) {
+    public Clan getClan(String clanTag) {
         // Remove the '#' from the clan tag
         clanTag = clanTag.subSequence(1, clanTag.length()).toString();
 

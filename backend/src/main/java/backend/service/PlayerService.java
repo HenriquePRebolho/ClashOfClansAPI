@@ -2,6 +2,7 @@ package backend.service;
 
 import backend.models.Player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,11 +15,15 @@ import java.net.URI;
 @Service
 public class PlayerService {
 
+    @Value("${clashOfClansBaseURI}")
+    private String clashOfClansBaseURI;
+    @Value("${clashOfClansToken}")
+    private String clashOfClansToken;
+
     @Autowired
     RestTemplate restTemplate;
 
-    public Player getPlayer(String playerTag, String clashOfClansToken,
-                            String clashOfClansBaseURI) {
+    public Player getPlayer(String playerTag) {
         // Remove the '#' from the player tag
         playerTag = playerTag.subSequence(1, playerTag.length()).toString();
 

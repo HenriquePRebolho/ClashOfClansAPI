@@ -18,11 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class BackendApplicationTests {
 
-	@Value("${clashOfClansBaseURI}")
-	private String clashOfClansBaseURI;
-	@Value("${clashOfClansToken}")
-	private String clashOfClansToken;
-
 	@Autowired
 	PlayerService playerService;
 	@Autowired
@@ -38,7 +33,7 @@ class BackendApplicationTests {
 	@DisplayName("Get a player")
 	void getPlayerTest() {
 		String playerTagTest = "#2PP9JP09R";
-		Player player = playerService.getPlayer(playerTagTest, clashOfClansToken, clashOfClansBaseURI);
+		Player player = playerService.getPlayer(playerTagTest);
 
 		assertNotNull(player);
 		assertEquals(playerTagTest, player.getTag());
@@ -51,7 +46,7 @@ class BackendApplicationTests {
 	@DisplayName("Get a clan")
 	void getClanTest() {
 		String clanTagTest = "#2RRCJJ280";
-		Clan clan = clanService.getClan(clanTagTest, clashOfClansToken, clashOfClansBaseURI);
+		Clan clan = clanService.getClan(clanTagTest);
 
 		assertNotNull(clan);
 		assertEquals(clanTagTest, clan.getTag());
@@ -64,7 +59,7 @@ class BackendApplicationTests {
 	@DisplayName("Get a clan war log")
 	void getClanWarLogTest() {
 		String clanTagTest = "#2RRCJJ280";
-		WarLog clanWarLog = warLogService.getWarLog(clanTagTest, clashOfClansToken, clashOfClansBaseURI);
+		WarLog clanWarLog = warLogService.getWarLog(clanTagTest);
 
 		assertNotNull(clanWarLog);
 		assertEquals(clanTagTest, clanWarLog.getItems().get(0).getClan().getTag());

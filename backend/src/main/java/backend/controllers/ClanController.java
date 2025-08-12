@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/coc.api/v1/players")
+@RequestMapping("/coc.api/v1/clans")
 public class ClanController {
 
     @Autowired
@@ -36,12 +36,13 @@ public class ClanController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Clan createClan(@RequestBody Clan newClan) {
+    public Clan createClan(@RequestBody String newClanTag) {
         try {
             // Avoid a duplicated clan
-            if (clanRepository.findClanByTag(newClan.getTag()) != null) {
-                return clanRepository.findClanByTag(newClan.getTag());
+            if (clanRepository.findClanByTag(newClanTag) != null) {
+                return clanRepository.findClanByTag(newClanTag);
             }
+            Clan newClan = clanService.getClan(newClanTag);
             return clanRepository.save(newClan);
         } catch (Exception e) {
             e.printStackTrace();

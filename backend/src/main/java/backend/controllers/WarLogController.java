@@ -5,6 +5,7 @@ import backend.models.Clan.Clan;
 import backend.models.WarLog.WarLog;
 import backend.repositories.ClanRepository;
 import backend.repositories.WarLogRepository;
+import backend.service.WarLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ public class WarLogController {
     WarLogRepository warLogRepository;
     @Autowired
     ClanRepository clanRepository;
+
+    @Autowired
+    WarLogService warLogService;
 
 
     @GetMapping("/{clanTag}/warlog")
@@ -37,18 +41,17 @@ public class WarLogController {
 
     @PostMapping("/{clanTag}/warlog")
     @ResponseStatus(HttpStatus.CREATED)
-    public WarLog createWarLog(@PathVariable String clanTag, @RequestBody WarLog newWarLog)
-            throws ClanNotFoundException{
+    public WarLog createWarLog(@PathVariable String clanTag) throws ClanNotFoundException{
         Optional<Clan> foundClan = Optional.ofNullable(clanRepository.findClanByTag(clanTag));
 
         if (foundClan.isEmpty()) {
             throw new ClanNotFoundException();
         }
         try {
-            // CHECK THIS
             if (warLogRepository.findWarLogByClanTag(clanTag) != null) {
-                return warLogRepository.findWarLogByClanTag(clanTag); //
+                return warLogRepository.findWarLogByClanTag(clanTag);
             }
+            WarLog newWarLog = warLogService.getWarLog(clanTag);
             return warLogRepository.save(newWarLog);
         } catch (Exception e) {
             e.printStackTrace();
