@@ -3,8 +3,10 @@ package backend.models.Clan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Embeddable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class Location {
 
     @JsonProperty("id")

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/coc.api/v1")
+@RequestMapping("/coc.api/v1/clans")
 public class WarLogController {
 
     @Autowired
@@ -28,6 +28,9 @@ public class WarLogController {
     @GetMapping("/{clanTag}/warlog")
     @ResponseStatus(HttpStatus.OK)
     public WarLog getWarLogByClanTag(@PathVariable String clanTag) throws ClanNotFoundException {
+        if (clanTag.charAt(0) != '#') {
+            clanTag = '#' + clanTag;
+        }
         Optional<Clan> foundClan = Optional.ofNullable(clanRepository.findClanByTag(clanTag));
 
         if (foundClan.isEmpty()) {
@@ -42,8 +45,11 @@ public class WarLogController {
     @PostMapping("/{clanTag}/warlog")
     @ResponseStatus(HttpStatus.CREATED)
     public WarLog createWarLog(@PathVariable String clanTag) throws ClanNotFoundException{
+        // Postman strips everything followed by a #, so for postman requests we add the #
+        if (clanTag.charAt(0) != '#') {
+            clanTag = '#' + clanTag;
+        }
         Optional<Clan> foundClan = Optional.ofNullable(clanRepository.findClanByTag(clanTag));
-
         if (foundClan.isEmpty()) {
             throw new ClanNotFoundException();
         }

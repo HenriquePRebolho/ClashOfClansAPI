@@ -3,10 +3,12 @@ package backend.models.Clan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Id;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class CapitalLeague {
-
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("name")

@@ -3,10 +3,14 @@ package backend.models.Clan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "ClanMember")
 public class Member {
 
+    @Id
     @JsonProperty("tag")
     private String tag;
     @JsonProperty("name")
@@ -17,8 +21,13 @@ public class Member {
     private Integer townHallLevel;
     @JsonProperty("expLevel")
     private Integer expLevel;
+
     @JsonProperty("league")
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "league_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "league_name"))
     private League league;
+
     @JsonProperty("trophies")
     private Integer trophies;
     @JsonProperty("builderBaseTrophies")
@@ -31,9 +40,15 @@ public class Member {
     private Integer donations;
     @JsonProperty("donationsReceived")
     private Integer donationsReceived;
+
     @JsonProperty("playerHouse")
+    @Embedded
     private PlayerHouse playerHouse;
+
     @JsonProperty("builderBaseLeague")
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "builder_base_league_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "builder_base_league_name"))
     private BuilderBaseLeague builderBaseLeague;
 
     @JsonProperty("tag")

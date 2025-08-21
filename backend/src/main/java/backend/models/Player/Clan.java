@@ -3,8 +3,10 @@ package backend.models.Player;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class Clan {
 
     @JsonProperty("tag")
@@ -13,7 +15,9 @@ public class Clan {
     private String name;
     @JsonProperty("clanLevel")
     private Integer clanLevel;
+
     @JsonProperty("badgeUrls")
+    @Embedded
     private BadgeUrls badgeUrls;
 
     @JsonProperty("tag")

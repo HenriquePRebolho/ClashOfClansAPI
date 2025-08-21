@@ -3,12 +3,13 @@ package backend.models.WarLog;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 
-@Entity
-@Table(name = "Opponent")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class Opponent {
 
     @JsonProperty("tag")
@@ -16,6 +17,10 @@ public class Opponent {
     @JsonProperty("name")
     private String name;
     @JsonProperty("badgeUrls")
+    @Embedded
+    @AttributeOverride(name = "small", column = @Column(name = "opponent_small_badgeUrls"))
+    @AttributeOverride(name = "medium", column = @Column(name = "opponent_medium_badgeUrls"))
+    @AttributeOverride(name = "large", column = @Column(name = "opponent_large_badgeUrls"))
     private BadgeUrls__1 badgeUrls;
     @JsonProperty("clanLevel")
     private Integer clanLevel;

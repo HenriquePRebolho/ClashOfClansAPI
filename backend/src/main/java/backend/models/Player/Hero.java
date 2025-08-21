@@ -3,10 +3,22 @@ package backend.models.Player;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "Hero")
 public class Hero {
+
+    @Id
+    @Setter
+    @Getter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @JsonProperty("name")
     private String name;
@@ -14,8 +26,12 @@ public class Hero {
     private Integer level;
     @JsonProperty("maxLevel")
     private Integer maxLevel;
+
     @JsonProperty("equipment")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "heroId")
     private List<Equipment> equipment;
+
     @JsonProperty("village")
     private String village;
 

@@ -17,13 +17,12 @@ public class WarLog {
     private String clanTag;
 
     @JsonProperty("items")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "warLogId")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items;
 
     @JsonProperty("paging")
-    //@JoinColumn(name = "paging_id", referencedColumnName = "id")
-    //@OneToOne(cascade = CascadeType.ALL)
+    @Embedded
     private Paging paging;
 
     @JsonProperty("tag")

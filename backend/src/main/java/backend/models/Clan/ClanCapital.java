@@ -3,14 +3,22 @@ package backend.models.Clan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class ClanCapital {
 
     @JsonProperty("capitalHallLevel")
     private Integer capitalHallLevel;
+
     @JsonProperty("districts")
+    @ElementCollection
+    @CollectionTable(name = "districts", joinColumns = @JoinColumn(name = "clan_tag"))
+    @AttributeOverride(name = "id", column = @Column(name = "districts_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "districts_name"))
     private List<District> districts;
 
     @JsonProperty("capitalHallLevel")

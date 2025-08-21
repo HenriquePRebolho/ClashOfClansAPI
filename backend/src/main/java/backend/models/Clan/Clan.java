@@ -3,9 +3,7 @@ package backend.models.Clan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -23,12 +21,20 @@ public class Clan {
     private String type;
     @JsonProperty("description")
     private String description;
+
     @JsonProperty("location")
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "location_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "location_name"))
     private Location location;
+
     @JsonProperty("isFamilyFriendly")
     private Boolean isFamilyFriendly;
+
     @JsonProperty("badgeUrls")
+    @Embedded
     private BadgeUrls badgeUrls;
+
     @JsonProperty("clanLevel")
     private Integer clanLevel;
     @JsonProperty("clanPoints")
@@ -37,8 +43,13 @@ public class Clan {
     private Integer clanBuilderBasePoints;
     @JsonProperty("clanCapitalPoints")
     private Integer clanCapitalPoints;
+
     @JsonProperty("capitalLeague")
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "capital_league_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "capital_league_name"))
     private CapitalLeague capitalLeague;
+
     @JsonProperty("requiredTrophies")
     private Integer requiredTrophies;
     @JsonProperty("warFrequency")
@@ -53,21 +64,40 @@ public class Clan {
     private Integer warLosses;
     @JsonProperty("isWarLogPublic")
     private Boolean isWarLogPublic;
+
     @JsonProperty("warLeague")
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "war_league_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "war_league_name"))
     private WarLeague warLeague;
+
     @JsonProperty("members")
     private Integer members;
+
     @JsonProperty("memberList")
+    @JoinColumn(name = "clanId")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Member> memberList;
+
+
     @JsonProperty("labels")
+    @JoinColumn(name = "clanId")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Label> labels;
+
     @JsonProperty("requiredBuilderBaseTrophies")
     private Integer requiredBuilderBaseTrophies;
     @JsonProperty("requiredTownhallLevel")
     private Integer requiredTownhallLevel;
+
     @JsonProperty("clanCapital")
+    @Embedded
     private ClanCapital clanCapital;
+
     @JsonProperty("chatLanguage")
+    @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "chat_language_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "chat_language_name"))
     private ChatLanguage chatLanguage;
 
     @JsonProperty("tag")

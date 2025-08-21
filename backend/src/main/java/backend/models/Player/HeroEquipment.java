@@ -3,9 +3,20 @@ package backend.models.Player;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "HeroEquipment")
 public class HeroEquipment {
+
+    @Id
+    @Setter
+    @Getter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @JsonProperty("name")
     private String name;

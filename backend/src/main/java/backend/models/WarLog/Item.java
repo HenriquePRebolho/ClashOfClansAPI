@@ -3,13 +3,20 @@ package backend.models.WarLog;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Item")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
+
+    @Id
+    @Setter
+    @Getter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
 
     @JsonProperty("result")
     private String result;
@@ -21,9 +28,23 @@ public class Item {
     private Integer attacksPerMember;
     @JsonProperty("battleModifier")
     private String battleModifier;
+
     @JsonProperty("clan")
+    @Embedded
+    @AttributeOverride(name = "tag", column = @Column(name = "clan_tag"))
+    @AttributeOverride(name = "name", column = @Column(name = "clan_name"))
+    @AttributeOverride(name = "clanLevel", column = @Column(name = "clan_level"))
+    @AttributeOverride(name = "stars", column = @Column(name = "clan_stars"))
+    @AttributeOverride(name = "destructionPercentage", column = @Column(name = "clan_destruction_percentage"))
     private Clan clan;
+
     @JsonProperty("opponent")
+    @Embedded
+    @AttributeOverride(name = "tag", column = @Column(name = "opponent_id"))
+    @AttributeOverride(name = "name", column = @Column(name = "opponent_name"))
+    @AttributeOverride(name = "clanLevel", column = @Column(name = "opponent_clan_level"))
+    @AttributeOverride(name = "stars", column = @Column(name = "opponent_stars"))
+    @AttributeOverride(name = "destructionPercentage", column = @Column(name = "opponent_destruction_percentage"))
     private Opponent opponent;
 
     @JsonProperty("result")

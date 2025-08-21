@@ -3,13 +3,19 @@ package backend.models.Player;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "Player")
 public class Player {
 
+    @Id
     @JsonProperty("tag")
     private String tag;
+
     @JsonProperty("name")
     private String name;
     @JsonProperty("townHallLevel")
@@ -44,25 +50,56 @@ public class Player {
     private Integer donationsReceived;
     @JsonProperty("clanCapitalContributions")
     private Integer clanCapitalContributions;
+
     @JsonProperty("clan")
+    @Embedded
+    @AttributeOverride(name = "name", column = @Column(name = "clan_name"))
+    @AttributeOverride(name = "tag", column = @Column(name = "clan_tag"))
     private Clan clan;
+
     @JsonProperty("league")
+    @Embedded
+    @AttributeOverride(name = "name", column = @Column(name = "league_name"))
+    @AttributeOverride(name = "id", column = @Column(name = "league_id"))
     private League league;
+
     @JsonProperty("builderBaseLeague")
+    @Embedded
+    @AttributeOverride(name = "name", column = @Column(name = "builder_base_league_name"))
     private BuilderBaseLeague builderBaseLeague;
+
     @JsonProperty("achievements")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "playerId")
     private List<Achievement> achievements;
+
     @JsonProperty("playerHouse")
+    @Embedded
     private PlayerHouse playerHouse;
+
     @JsonProperty("labels")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "playerId")
     private List<Label> labels;
+
     @JsonProperty("troops")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "playerId")
     private List<Troop> troops;
+
     @JsonProperty("heroes")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "playerId")
     private List<Hero> heroes;
+
     @JsonProperty("heroEquipment")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "playerId")
     private List<HeroEquipment> heroEquipment;
+
     @JsonProperty("spells")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "playerId")
     private List<Spell> spells;
 
     @JsonProperty("tag")

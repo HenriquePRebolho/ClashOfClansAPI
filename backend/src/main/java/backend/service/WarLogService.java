@@ -25,7 +25,9 @@ public class WarLogService {
 
     public WarLog getWarLog(String clanTag) {
         // Remove the '#' from the player tag
-        clanTag = clanTag.subSequence(1, clanTag.length()).toString();
+        if (clanTag.charAt(0) == '#') {
+            clanTag = clanTag.subSequence(1, clanTag.length()).toString();
+        }
 
         StringBuilder builder = new StringBuilder(clashOfClansBaseURI);
         builder.append("/v1/clans/%23");
@@ -42,7 +44,7 @@ public class WarLogService {
         try {
             response = restTemplate.exchange(uri, HttpMethod.GET, request, WarLog.class);
             WarLog warLog = new WarLog();
-            warLog.setClanTag(clanTag);
+            warLog.setClanTag('#'+clanTag);
             warLog.setItems(response.getBody().getItems());  // FIX
             warLog.setPaging(response.getBody().getPaging());
             return warLog;

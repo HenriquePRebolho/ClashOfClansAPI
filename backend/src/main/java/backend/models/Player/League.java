@@ -3,15 +3,21 @@ package backend.models.Player;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class League {
 
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("name")
     private String name;
+
     @JsonProperty("iconUrls")
+    @Embedded
+    @AttributeOverride(name = "small", column = @Column(name = "small_iconUrls"))
+    @AttributeOverride(name = "medium", column = @Column(name = "medium_iconUrls"))
     private IconUrls iconUrls;
 
     @JsonProperty("id")

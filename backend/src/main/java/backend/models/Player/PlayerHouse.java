@@ -3,12 +3,17 @@ package backend.models.Player;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Embeddable
 public class PlayerHouse {
-
     @JsonProperty("elements")
+    @ElementCollection
+    @CollectionTable(name = "player_house_elements",
+                        joinColumns = @JoinColumn(name = "player_tag"))
     private List<Element> elements;
 
     @JsonProperty("elements")

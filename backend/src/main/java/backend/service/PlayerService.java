@@ -25,7 +25,9 @@ public class PlayerService {
 
     public Player getPlayer(String playerTag) {
         // Remove the '#' from the player tag
-        playerTag = playerTag.subSequence(1, playerTag.length()).toString();
+        if (playerTag.charAt(0) == '#') {
+            playerTag = playerTag.subSequence(1, playerTag.length()).toString();
+        }
 
         StringBuilder builder = new StringBuilder(clashOfClansBaseURI);
         builder.append("/v1/players/%23");

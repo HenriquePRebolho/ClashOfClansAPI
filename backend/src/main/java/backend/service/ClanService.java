@@ -25,7 +25,9 @@ public class ClanService {
 
     public Clan getClan(String clanTag) {
         // Remove the '#' from the clan tag
-        clanTag = clanTag.subSequence(1, clanTag.length()).toString();
+        if (clanTag.charAt(0) == '#') {
+            clanTag = clanTag.subSequence(1, clanTag.length()).toString();
+        }
 
         StringBuilder builder = new StringBuilder(clashOfClansBaseURI);
         builder.append("/v1/clans/%23");

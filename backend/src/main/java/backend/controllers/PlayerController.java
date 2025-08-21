@@ -23,7 +23,11 @@ public class PlayerController {
     @GetMapping("/{playerTag}")
     @ResponseStatus(HttpStatus.OK)
     public Player getPlayerByTag(@PathVariable String playerTag) throws PlayerNotFoundException {
-        Optional<Player> foundPlayer = Optional.ofNullable(playerRepository.findByPlayerTag(playerTag));
+        // Postman strips everything followed by a #, so for postman requests we add the #
+        if (playerTag.charAt(0) != '#') {
+            playerTag = '#' + playerTag;
+        }
+        Optional<Player> foundPlayer = Optional.ofNullable(playerRepository.findPlayerByTag(playerTag));
 
         if (foundPlayer.isEmpty()) {
             throw new PlayerNotFoundException();
@@ -36,8 +40,8 @@ public class PlayerController {
     @ResponseStatus(HttpStatus.CREATED)
     public Player createPlayer(@RequestBody String newPlayerTag) {
         try {
-            if (playerRepository.findByPlayerTag(newPlayerTag) != null) {
-                return playerRepository.findByPlayerTag(newPlayerTag);
+            if (playerRepository.findPlayerByTag(newPlayerTag) != null) {
+                return playerRepository.findPlayerByTag(newPlayerTag);
             }
             Player newPlayer = playerService.getPlayer(newPlayerTag);
             return playerRepository.save(newPlayer);

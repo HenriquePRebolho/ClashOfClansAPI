@@ -25,6 +25,10 @@ public class ClanController {
     @ResponseStatus(HttpStatus.OK)
     public Clan getClanByTag( // @Parameter(descripiton="tag of the clan to be found")
                                  @PathVariable String clanTag) throws ClanNotFoundException {
+        // Postman strips everything followed by a #, so for postman requests we add the #
+        if (clanTag.charAt(0) != '#') {
+            clanTag = '#' + clanTag;
+        }
         Optional<Clan> foundClan = Optional.ofNullable(clanRepository.findClanByTag(clanTag));
 
         if (foundClan.isEmpty()) {
